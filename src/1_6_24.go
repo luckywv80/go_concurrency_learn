@@ -23,7 +23,7 @@ func main() {
 		cadence.L.Unlock()
 	}
 
-	tryDir := func(dirName string, dir *int32, out *bytes.Buffer) {
+	tryDir := func(dirName string, dir *int32, out *bytes.Buffer) bool {
 		fmt.Fprintf(out, "%v", dirName)
 		atomic.AddInt32(dir, 1)
 		takeStep()
@@ -39,7 +39,7 @@ func main() {
 	var left, right int32
 	tryLeft := func(out *bytes.Buffer) bool { return tryDir("left", &left, out) }
 	tryRight := func(out *bytes.Buffer) bool { return tryDir("right", &right, out) }
-	walk := func(walking **sync.WaitGroup, name string) {
+	walk := func(walking *sync.WaitGroup, name string) {
 		var out bytes.Buffer
 		defer func() { fmt.Println(out.String()) }()
 		defer walking.Done()
