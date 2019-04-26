@@ -24,7 +24,8 @@ func main() {
 	}
 
 	tryDir := func(dirName string, dir *int32, out *bytes.Buffer) bool {
-		fmt.Fprintf(out, "%v", dirName)
+		fmt.Fprintf(out, " %v", dirName)
+		// fmt.Printf( " %v", dirName)
 		atomic.AddInt32(dir, 1)
 		takeStep()
 		if atomic.LoadInt32(dir) == 1 {
@@ -44,7 +45,7 @@ func main() {
 		defer func() { fmt.Println(out.String()) }()
 		defer walking.Done()
 
-		fmt.Fprintf(&out, "%v is trying to scoot:", name)
+		fmt.Fprintf(&out, "%v is trying to 走:", name)
 		for i := 0; i < 5; i++ {
 			if tryLeft(&out) || tryRight(&out) {
 				return
